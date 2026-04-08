@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detalhes do Projeto - Stanley Falcão</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .project-detail {
+      padding: 140px 24px 80px;
+      min-height: 100vh;
+      background: var(--bg);
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 32px;
+      transition: var(--transition);
+    }
+    .back-btn:hover {
+      color: var(--primary-light);
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 48px;
+    }
+    .detail-img {
+      width: 100%;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      object-position: top;
+    }
+    .detail-info {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .detail-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .detail-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .detail-desc {
+      color: var(--text-muted);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+    .detail-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: auto;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .w-full {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    @media (max-width: 968px) {
+      .detail-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">SF<span class="dot">.</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Voltar ao Início</a></li>
+      </ul>
+      <a href="index.html#contact" class="nav-cta">Contato</a>
+    </div>
+  </nav>
+
+  <main class="project-detail container" id="projectDetail">
+    <div style="text-align:center; padding:100px;">Carregando detalhes do projeto...</div>
+  </main>
+
+  <script src="project-data.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const projectId = urlParams.get('id');
+      
+      const project = projectsData.find(p => p.id === projectId);
+      const container = document.getElementById('projectDetail');
+      
+      if (!project) {
+        container.innerHTML = '<a href="index.html" class="back-btn">← Voltar para o Portfólio</a><h1>Projeto não encontrado.</h1>';
+        return;
+      }
+      
+      document.title = project.title + ' - Stanley Falcão';
+      
+      const tagsHtml = project.tags.map(tag => '<span class="tag">' + tag + '</span>').join('');
+      
+      let actionsHtml = '';
+      if (project.url_live) {
+        actionsHtml += '<a href="' + project.url_live + '" target="_blank" class="btn btn-primary w-full">Visualizar ao Vivo ↗</a>';
+      }
+      if (project.url_github) {
+        actionsHtml += '<a href="' + project.url_github + '" target="_blank" class="btn btn-outline w-full"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg> Código no GitHub</a>';
+      }
+      
+      // Build the full HTML
+      container.innerHTML = `
+        <a href="index.html#projects" class="back-btn">← Voltar para todos os projetos</a>
+        
+        <div class="detail-grid">
+          <div>
+            <img src="${project.img}" alt="${project.title}" class="detail-img" />
+          </div>
+          
+          <div class="detail-info">
+            <div>
+              <h1 class="detail-title">${project.title}</h1>
+              <div class="detail-tags">${tagsHtml}</div>
+            </div>
+            
+            <div>
+              <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-light); margin-bottom: 12px;">Sobre o Projeto</h3>
+              <p class="detail-desc">${project.desc}</p>
+            </div>
+            
+            <div class="detail-actions">
+              ${actionsHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
