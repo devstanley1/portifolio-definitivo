@@ -1,5 +1,14 @@
 const projectsData = [
   { 
+    id: 'lionhard', 
+    img: 'images/projects/proj_lionhard.png', 
+    title: 'Lion Hard Academia', 
+    desc: 'Sistema de landing page de alta conversão para a Lion Hard Academia, focado em captação de leads e atração de novos alunos. A página utiliza padrões agressivos de conversão baseados no design atlético (Dark Mode), ressaltando autoridade, metodologia de ponta e infraestrutura robusta. Além disso, traz integrações otimizadas para WhatsApp e Google Maps, oferecendo máxima praticidade ao futuro aluno da academia.<br/><br/><strong>Tecnologias e Conceitos:</strong><br/>• Desenvolvimento purista Web (Zero-Frameworks) para SEO Absoluto<br/>• Animations On Scroll (AOS) criando imersão física<br/>• CSS Variables e Flexbox/Grid Methods sofisticados<br/>• Compressão visual garantindo LCP em milissegundos', 
+    tags: ['Landing Page', 'Conversão (CRO)', 'Design Atlético'], 
+    url_live: 'https://lion-hard.vercel.app/', 
+    url_github: 'https://github.com/devstanley1/LionHard' 
+  },
+  { 
     id: 'solaris', 
     img: 'images/projects/proj_solaris.png', 
     title: 'Solaris Energia', 
