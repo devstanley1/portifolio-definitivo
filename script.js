@@ -23,7 +23,7 @@
       if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(139,92,246,${p.alpha})`;
+      ctx.fillStyle = `rgba(29,78,216,${p.alpha})`;
       ctx.fill();
     });
     requestAnimationFrame(draw);
