@@ -1,4 +1,4 @@
-/* ===== PARTICLES CANVAS (Harmonizado com tons Carvão, Floresta & Carmesim) ===== */
+/* ===== CYBERPUNK PARTICLES & MATRIX NODES (Verde Floresta / Matrix Dark) ===== */
 (function () {
   const canvas = document.getElementById('particles');
   if (!canvas) return;
@@ -7,36 +7,62 @@
   let H = canvas.height = canvas.offsetHeight;
   const particles = [];
   
-  // Cores suaves de partículas complementares: verde floresta e vermelho carmesim pontual
+  // Variações de Verde Cyberpunk (Floresta Neon & Esmeralda)
   const colors = [
     'rgba(46, 125, 87, ',   // Forest Accent
-    'rgba(74, 222, 128, ',  // Forest Light
-    'rgba(220, 38, 38, '    // Crimson Red
+    'rgba(74, 222, 128, ',  // Neon Green Cyber
+    'rgba(34, 197, 94, '    // Matrix Lime
   ];
 
-  for (let i = 0; i < 65; i++) {
+  for (let i = 0; i < 75; i++) {
     particles.push({
       x: Math.random() * W,
       y: Math.random() * H,
-      r: Math.random() * 1.8 + 0.4,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: (Math.random() - 0.5) * 0.25,
-      alpha: Math.random() * 0.35 + 0.1,
-      color: colors[i % 5 === 0 ? 2 : (i % 2 === 0 ? 0 : 1)] // Maioria verde floresta e toques de carmesim
+      r: Math.random() * 1.6 + 0.5,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: Math.random() * 0.5 + 0.2, // fluxo descendente estilo data-stream cyberpunk
+      alpha: Math.random() * 0.45 + 0.15,
+      color: colors[Math.floor(Math.random() * colors.length)]
     });
   }
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
+    
+    // Conexões neurais/cibernéticas sutis entre nós próximos
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 90) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(46, 125, 87, ${(1 - dist / 90) * 0.15})`;
+          ctx.lineWidth = 0.6;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Desenhar nós de partículas
     particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y > H) p.y = 0; // reaparece no topo suavemente
+      
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
       ctx.fillStyle = `${p.color}${p.alpha})`;
+      ctx.shadowColor = 'rgba(74, 222, 128, 0.4)';
+      ctx.shadowBlur = 6;
       ctx.fill();
+      ctx.shadowBlur = 0;
     });
+
     requestAnimationFrame(draw);
   }
   draw();
